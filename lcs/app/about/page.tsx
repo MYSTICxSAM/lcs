@@ -44,8 +44,8 @@ export default function AboutPage() {
             </div>
             <div className="rounded-2xl overflow-hidden shadow-xl">
               <img
-                src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=800&q=80"
-                alt="Team helping customers"
+                src="https://images.unsplash.com/photo-1601597111158-2fceff292cdc?w=800&q=80"
+                alt="Indian bank"
                 className="w-full h-72 md:h-96 object-cover"
               />
             </div>
