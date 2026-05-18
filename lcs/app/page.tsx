@@ -1,0 +1,285 @@
+'use client'
+
+import { useState } from 'react'
+import toast from 'react-hot-toast'
+import { supabase } from '@/lib/supabase'
+
+export default function Home() {
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    loanType: '',
+    loanAmount: ''
+  })
+  const [loading, setLoading] = useState(false)
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setLoading(true)
+
+    try {
+      const { error } = await supabase
+        .from('leads')
+        .insert([{
+          name: formData.name,
+          phone: formData.phone,
+          loan_type: formData.loanType,
+          loan_amount: formData.loanAmount
+        }])
+
+      if (error) throw error
+
+      await fetch('/api/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      })
+
+      setFormData({ name: '', phone: '', loanType: '', loanAmount: '' })
+      toast.custom(() => (
+        <div className="bg-white rounded-xl shadow-2xl border border-green-100 px-6 py-5 flex flex-col items-center gap-2 max-w-sm w-full">
+          <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-2xl">✅</div>
+          <p className="font-bold text-[#1e3a8a] text-lg text-center">Thank You!</p>
+          <p className="text-gray-600 text-sm text-center">We will contact you soon.</p>
+        </div>
+      ), { duration: 5000 })
+    } catch (error) {
+      console.error('Error:', error)
+      toast.error('Something went wrong. Please try again.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <div className="min-h-screen bg-white">
+      
+      {/* ===== HERO SECTION ===== */}
+      <section 
+        className="relative bg-cover bg-center"
+        style={{
+          backgroundImage: 'linear-gradient(135deg, rgba(30,58,138,0.85) 0%, rgba(37,99,235,0.6) 60%, rgba(37,99,235,0.4) 100%), url("https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=1600&q=80")'
+        }}
+      >
+        <div className="max-w-7xl mx-auto px-4 md:px-8 py-8 md:py-16 lg:py-20">
+          <div className="grid lg:grid-cols-[1.5fr,1fr] gap-6 lg:gap-12 items-center">
+            
+            {/* LEFT: Heading + Buttons */}
+            <div className="text-white">
+              <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold leading-[1.1] mb-2">
+                Get Instant
+              </h1>
+              <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold leading-[1.1] mb-4 text-[#FDB913]">
+                Loan Assistance
+              </h1>
+              <p className="text-sm md:text-lg lg:text-xl mb-6 font-medium">
+                Home Loan • Personal Loan • Business Loan • Car Hoan
+              </p>
+              
+              <div className="flex flex-wrap gap-3">
+                <button className="bg-[#FF6B2C] hover:bg-[#FF5A1A] text-white px-6 md:px-8 py-2.5 md:py-3 rounded-md font-semibold text-sm md:text-base shadow-lg transition-all">
+                  Apply Now
+                </button>
+                <a 
+                  href="https://wa.me/919876543210"
+                  className="bg-[#25D366] hover:bg-[#20BD5A] text-white px-6 md:px-8 py-2.5 md:py-3 rounded-md font-semibold text-sm md:text-base flex items-center gap-2 shadow-lg transition-all"
+                >
+                  <svg className="w-4 h-4 md:w-5 md:h-5" viewBox="0 0 24 24" fill="currentColor">
+                    <circle cx="12" cy="12" r="11" fill="white" fillOpacity="0.25"/>
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/>
+                  </svg>
+                  WhatsApp Us
+                </a>
+              </div>
+            </div>
+
+            {/* RIGHT: Form Card */}
+            <div className="bg-white rounded-xl shadow-2xl p-5 md:p-6 w-full max-w-sm mx-auto lg:mx-0 lg:ml-auto">
+              <h2 className="text-xl md:text-2xl font-bold text-[#1e3a8a] mb-4">Get a Quick Loan</h2>
+              
+              <form onSubmit={handleSubmit} className="space-y-3">
+                <input
+                  type="text"
+                  placeholder="Your Name"
+                  required
+                  className="w-full px-3 py-2.5 border border-gray-200 rounded-md text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-gray-700"
+                  value={formData.name}
+                  onChange={(e) => setFormData({...formData, name: e.target.value})}
+                />
+                <input
+                  type="tel"
+                  placeholder="Phone Number"
+                  required
+                  pattern="[0-9]{10}"
+                  className="w-full px-3 py-2.5 border border-gray-200 rounded-md text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-gray-700"
+                  value={formData.phone}
+                  onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                />
+                <select
+                  required
+                  className="w-full px-3 py-2.5 border border-gray-200 rounded-md text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-gray-700 bg-white"
+                  value={formData.loanType}
+                  onChange={(e) => setFormData({...formData, loanType: e.target.value})}
+                >
+                  <option value="">Select Loan Type</option>
+                  <option>Home Loan</option>
+                  <option>Personal Loan</option>
+                  <option>Car Loan</option>
+                  <option>Business Loan</option>
+                </select>
+                <input
+                  type="text"
+                  placeholder="Loan Amount"
+                  required
+                  className="w-full px-3 py-2.5 border border-gray-200 rounded-md text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-gray-700"
+                  value={formData.loanAmount}
+                  onChange={(e) => setFormData({...formData, loanAmount: e.target.value})}
+                />
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full bg-[#10B981] hover:bg-[#059669] text-white py-3 rounded-md font-bold text-base shadow-md transition-all disabled:opacity-50"
+                >
+                  {loading ? 'Submitting...' : 'Get Started'}
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== OUR LOAN SERVICES ===== */}
+      <section className="bg-gradient-to-b from-blue-50 to-white py-8 md:py-12">
+        <div className="max-w-6xl mx-auto px-4 md:px-8">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-center text-[#1e3a8a] mb-6 md:mb-10">
+            Our Loan Services
+          </h2>
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5">
+            {[
+              { icon: '🏠', title: 'Home Loan', desc: 'Drive Your Dream Home', color: '#FF6B2C' },
+              { icon: '💰', title: 'Personal Loan', desc: 'Quick Personal Loans', color: '#14B8A6' },
+              { icon: '🚗', title: 'Car Loan', desc: 'Drive Your New Car', color: '#1e40af' },
+              { icon: '💼', title: 'Business Loan', desc: 'Grow Your Business', color: '#1e3a8a' }
+            ].map((service, i) => (
+              <div key={i} className="rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow">
+                <div className="bg-white h-24 md:h-32 flex items-center justify-center">
+                  <span className="text-5xl md:text-7xl">{service.icon}</span>
+                </div>
+                <div style={{ backgroundColor: service.color }} className="px-3 py-2 md:py-3 text-center">
+                  <h3 className="font-bold text-sm md:text-base text-white leading-tight">{service.title}</h3>
+                  <p className="text-[10px] md:text-xs text-white/90 leading-tight mt-0.5">{service.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ===== WHY CHOOSE US ===== */}
+      <section className="bg-white py-8 md:py-14">
+        <div className="max-w-6xl mx-auto px-4 md:px-8">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-center text-[#1e3a8a] mb-6 md:mb-10">
+            Why Choose Us?
+          </h2>
+          
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-6">
+            {[
+              { icon: '⏱️', title: 'Fast Approval' },
+              { icon: '🏛️', title: '50+ Bank Partners' },
+              { icon: '🎧', title: 'Expert Advisors' },
+              { icon: '📊', title: 'Low Interest Rates' },
+              { icon: '🛡️', title: '100% Secure Process' }
+            ].map((item, i) => (
+              <div key={i} className="text-center">
+                <div className="bg-blue-50 w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center mx-auto mb-2 md:mb-3 shadow-md">
+                  <span className="text-3xl md:text-4xl">{item.icon}</span>
+                </div>
+                <h3 className="font-semibold text-xs md:text-sm text-gray-800 leading-tight">{item.title}</h3>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ===== SIMPLE LOAN PROCESS ===== */}
+      <section className="relative bg-gradient-to-r from-[#1e3a8a] via-[#1e40af] to-[#2563eb] text-white py-8 md:py-14">
+        {/* Top wave */}
+        <div className="absolute -top-1 left-0 right-0">
+          <svg viewBox="0 0 1440 60" className="w-full h-6 md:h-10 fill-white" preserveAspectRatio="none">
+            <path d="M0,40 Q360,0 720,40 T1440,40 L1440,0 L0,0 Z"></path>
+          </svg>
+        </div>
+        
+        <div className="max-w-6xl mx-auto px-4 md:px-8 pt-6 md:pt-4">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-6 md:mb-10">
+            Simple Loan Process
+          </h2>
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+            {[
+              { num: '1', title: 'Apply Online' },
+              { num: '2', title: 'Get Expert Advice' },
+              { num: '3', title: 'Bank Approval' },
+              { num: '4', title: 'Receive Your Funds' }
+            ].map((step, i) => (
+              <div key={i} className="flex items-start gap-2 md:gap-3">
+                <span className="text-3xl md:text-5xl font-bold leading-none">{step.num}.</span>
+                <h3 className="text-sm md:text-lg font-semibold pt-1 md:pt-2">{step.title}</h3>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ===== LOW CIBIL SECTION ===== */}
+      <section 
+        className="relative bg-cover bg-center min-h-[280px] md:min-h-[380px]"
+        style={{
+          backgroundImage: 'url("https://images.unsplash.com/photo-1521791136064-7986c2920216?w=1600&q=80")'
+        }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/20 to-transparent md:bg-gradient-to-r md:from-transparent md:to-blue-100/20"></div>
+        
+        <div className="relative z-10 max-w-6xl mx-auto px-4 md:px-8 py-8 md:py-16 flex justify-end">
+          <div className="bg-white/95 backdrop-blur-sm rounded-xl shadow-2xl p-5 md:p-8 w-full md:w-[50%] lg:w-[45%]">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#1e3a8a] mb-2 md:mb-3 text-center">
+              Low CIBIL Score?
+            </h2>
+            <div className="h-px bg-gray-300 my-3"></div>
+            <p className="text-sm md:text-base text-gray-700 mb-4 md:mb-6 font-medium text-center">
+              Improve Your Credit Score & Get a Loan
+            </p>
+            <button className="bg-[#FF6B2C] hover:bg-[#FF5A1A] text-white px-6 py-3 rounded-md font-bold text-sm md:text-base shadow-md w-full transition-all">
+              Check Eligibility
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== DSA PARTNER BANNER ===== */}
+      <section className="bg-gradient-to-r from-[#FF6B2C] via-[#FF8533] to-[#FFA04D] text-white py-6 md:py-10">
+        <div className="max-w-6xl mx-auto px-4 md:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="text-center md:text-left">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-1 md:mb-2">
+              Become a LSA Partner
+            </h2>
+            <p className="text-base md:text-lg lg:text-xl font-medium">
+              Earn Up to ₹1 Lakh Per Month
+            </p>
+          </div>
+          <button className="bg-[#FDB913] hover:bg-[#F0A500] text-orange-900 px-10 md:px-12 py-3 md:py-3.5 rounded-md font-bold text-base md:text-lg shadow-md transition-all">
+            Join Now
+          </button>
+        </div>
+      </section>
+
+      {/* ===== FOOTER ===== */}
+      <footer className="bg-gray-900 text-gray-300 py-6">
+        <div className="max-w-6xl mx-auto px-4 text-center">
+          <p className="text-sm">© 2026 Lending Capital Solution. All rights reserved.</p>
+        </div>
+      </footer>
+    </div>
+  )
+}
