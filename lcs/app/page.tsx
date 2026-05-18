@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import toast from 'react-hot-toast'
 import { supabase } from '@/lib/supabase'
+import Navbar from '@/components/Navbar'
+import Footer from '@/components/Footer'
 
 export default function Home() {
   const [formData, setFormData] = useState({
@@ -92,24 +94,9 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-white pt-[60px] md:pt-[68px]">
+    <div className="min-h-screen bg-white pt-[54px] md:pt-[68px]">
 
-      {/* ===== HEADER ===== */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200/60 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 py-3 md:py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <img
-              src="/5f1da0ee-bc82-4aea-a30f-aaaac8e84a1d.jpg"
-              alt="Lending Capital Solutions logo"
-              className="w-14 h-14 md:w-16 md:h-16 rounded-full object-cover shrink-0"
-            />
-            <span className="text-[#1e3a8a] font-bold text-lg md:text-2xl tracking-wide leading-tight">
-              Lending Capital Solutions
-            </span>
-          </div>
-         
-        </div>
-      </header>
+      <Navbar />
 
       {/* ===== HERO SECTION ===== */}
       <section 
@@ -314,7 +301,7 @@ export default function Home() {
       >
         <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/20 to-transparent md:bg-gradient-to-r md:from-transparent md:to-blue-100/20"></div>
         
-        <div className="relative z-10 max-w-6xl mx-auto px-4 md:px-8 py-8 md:py-16 flex justify-end">
+        <div className="relative z-10 max-w-6xl mx-auto px-4 md:px-8 py-8 md:py-16 flex justify-center md:justify-end">
           <div className="bg-white/95 backdrop-blur-sm rounded-xl shadow-2xl p-5 md:p-8 w-full md:w-[50%] lg:w-[45%]">
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#1e3a8a] mb-2 md:mb-3 text-center">
               Low CIBIL Score?
@@ -337,29 +324,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== DSA PARTNER BANNER ===== */}
-      <section className="bg-gradient-to-r from-[#FF6B2C] via-[#FF8533] to-[#FFA04D] text-white py-6 md:py-10">
-        <div className="max-w-6xl mx-auto px-4 md:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="text-center md:text-left">
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-1 md:mb-2">
-              Become a DSA Partner
-            </h2>
-            <p className="text-base md:text-lg lg:text-xl font-medium">
-              Earn Up to ₹1 Lakh Per Month
-            </p>
-          </div>
-          <button className="bg-[#FDB913] hover:bg-[#F0A500] text-orange-900 px-10 md:px-12 py-3 md:py-3.5 rounded-md font-bold text-base md:text-lg shadow-md transition-all">
-            Join Now
-          </button>
-        </div>
-      </section>
-
-      {/* ===== FOOTER ===== */}
-      <footer className="bg-gray-900 text-gray-300 py-6">
-        <div className="max-w-6xl mx-auto px-4 text-center">
-          <p className="text-sm">© 2026 Lending Capital Solution. All rights reserved.</p>
-        </div>
-      </footer>
+      <Footer />
 
       {/* ===== LOAN DETAILS MODAL ===== */}
       {activeLoan && (
