@@ -257,12 +257,11 @@ export default function Home() {
             Why Choose Us?
           </h2>
           
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             {[
               { icon: '⏱️', title: 'Fast Approval' },
-              { icon: '🏛️', title: '50+ Bank Partners' },
+              { icon: '🏛️', title: '6+ Bank Partners' },
               { icon: '🎧', title: 'Expert Advisors' },
-              { icon: '📊', title: 'Low Interest Rates' },
               { icon: '🛡️', title: '100% Secure Process' }
             ].map((item, i) => (
               <div key={i} className="text-center">
@@ -336,7 +335,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-4 md:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="text-center md:text-left">
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-1 md:mb-2">
-              Become a LSA Partner
+              Become a DSA Partner
             </h2>
             <p className="text-base md:text-lg lg:text-xl font-medium">
               Earn Up to ₹1 Lakh Per Month
