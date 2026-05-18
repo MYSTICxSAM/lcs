@@ -39,6 +39,14 @@ export default function Footer() {
                     <span>💬</span> WhatsApp Us
                   </a>
                 </li>
+                <li>
+                  <a
+                    href="mailto:lendingcapitalsolutions@gmail.com"
+                    className="hover:text-white transition-colors flex items-center gap-2"
+                  >
+                    <span>✉️</span> lendingcapitalsolutions@gmail.com
+                  </a>
+                </li>
               </ul>
             </div>
 
