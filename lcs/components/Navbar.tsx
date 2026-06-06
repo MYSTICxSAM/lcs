@@ -42,6 +42,14 @@ export default function Navbar() {
           >
             About Us
           </Link>
+          <Link
+            href="/blog"
+            className={`font-medium text-base transition-colors ${
+              pathname.startsWith('/blog') ? 'text-[#1e3a8a] border-b-2 border-[#1e3a8a]' : 'text-gray-600 hover:text-[#1e3a8a]'
+            }`}
+          >
+            Blog
+          </Link>
           <a
             href="tel:+919596601094"
             className="bg-[#1e3a8a] hover:bg-[#1e40af] text-white px-4 py-2 rounded-md font-semibold text-base transition-colors"
@@ -82,6 +90,15 @@ export default function Navbar() {
             }`}
           >
             ℹ️ About Us
+          </Link>
+          <Link
+            href="/blog"
+            onClick={() => setMenuOpen(false)}
+            className={`font-medium text-base py-2.5 px-3 rounded-lg transition-colors ${
+              pathname.startsWith('/blog') ? 'bg-blue-50 text-[#1e3a8a] font-semibold' : 'text-gray-700 hover:bg-gray-50'
+            }`}
+          >
+            📝 Blog
           </Link>
           <a
             href="tel:+919596601094"

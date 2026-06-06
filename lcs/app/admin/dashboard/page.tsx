@@ -103,13 +103,36 @@ export default function AdminDashboard() {
             { label: 'Home Loans', value: leads.filter(l => l.loan_type === 'Home Loan').length, icon: '🏠', color: 'indigo' },
             { label: 'Personal Loans', value: leads.filter(l => l.loan_type === 'Personal Loan').length, icon: '💰', color: 'teal' },
             { label: 'Business Loans', value: leads.filter(l => l.loan_type === 'Business Loan').length, icon: '💼', color: 'orange' },
-          ].map((stat, i) => (
-            <div key={i} className="bg-slate-800/60 border border-slate-700 rounded-xl p-4">
+          ].map((stat) => (
+            <div key={stat.label} className="bg-slate-800/60 border border-slate-700 rounded-xl p-4">
               <div className="text-2xl mb-1">{stat.icon}</div>
               <div className="text-2xl font-bold text-white">{stat.value}</div>
               <div className="text-slate-400 text-xs mt-0.5">{stat.label}</div>
             </div>
           ))}
+        </div>
+
+        {/* Blog Management */}
+        <div className="mb-8">
+          <div className="bg-slate-800/60 border border-slate-700 rounded-2xl p-5 flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <div className="w-10 h-10 bg-purple-600/20 rounded-xl flex items-center justify-center shrink-0">
+                <svg className="w-5 h-5 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                </svg>
+              </div>
+              <div>
+                <p className="text-white font-semibold text-sm">Blog Management</p>
+                <p className="text-slate-400 text-xs mt-0.5">Write posts, upload images, publish to website</p>
+              </div>
+            </div>
+            <a
+              href="/admin/dashboard/blogs"
+              className="bg-purple-600 hover:bg-purple-700 text-white text-sm px-4 py-2 rounded-lg font-medium transition-colors shrink-0"
+            >
+              Manage Blogs
+            </a>
+          </div>
         </div>
 
         {/* Search + Table */}
